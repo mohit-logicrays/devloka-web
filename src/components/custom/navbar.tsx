@@ -61,7 +61,10 @@ const DATA = {
 export default function Navbar(): React.JSX.Element {
   return (
     <nav className="p-4 w-full flex justify-between items-center sticky top-0 z-50">
-      <Link to="/" className="flex items-center gap-2">
+      <Link
+        to="/"
+        className="flex items-center supports-backdrop-blur:bg-white/10 supports-backdrop-blur:dark:bg-black/10 rounded-2xl border p-2 backdrop-blur-md"
+      >
         <SquareChevronRightIcon className="!size-5" />
         <span className="text-base font-semibold">Devloka.</span>
       </Link>

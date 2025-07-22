@@ -44,7 +44,7 @@ const ContentReveal: React.FC = (): JSX.Element => {
   return (
     <div className="size-full max-w-lg items-center justify-center overflow-hidden pt-8">
       <BoxReveal boxColor={"#5046e6"} duration={0.5}>
-        <p className="text-[3.5rem] font-semibold flex flex-col gap-2">
+        <div className="text-[3.5rem] font-semibold flex flex-col gap-2">
           <p>
             Code<span className="text-[#5046e6]">.</span>
           </p>
@@ -53,7 +53,7 @@ const ContentReveal: React.FC = (): JSX.Element => {
             {"  "}
             Share<span className="text-[#5046e6]">.</span>
           </p>
-        </p>
+        </div>
       </BoxReveal>
       <BoxReveal boxColor={"#5046e6"} duration={0.5}>
         <h2 className="mt-[.5rem] text-xl">

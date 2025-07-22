@@ -6,6 +6,8 @@
  */
 import NavbarUI from "@/components/custom/navbar";
 import HomeContent from "@/components/landing/home-content";
+import VideoDialog from "@/components/landing/video-dialog";
+import FeaturesParallax from "@/components/landing/features";
 
 /**
  * The Home component renders the home page of the application.
@@ -17,6 +19,8 @@ const Home: React.FC = () => {
     <div>
       <NavbarUI />
       <HomeContent />
+      <VideoDialog />
+      <FeaturesParallax />
     </div>
   );
 };
