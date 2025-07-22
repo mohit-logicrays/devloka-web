@@ -5,7 +5,7 @@ import { useUtilsContext } from "./providers/utils-providers.tsx";
 /**
  * Elements
  */
-import Home from "@/pages/home.tsx";
+import Home from "@/pages/landing//home.tsx";
 import Preloader from "@/components/custom/preloader.tsx";
 
 export function AppRoutes() {
