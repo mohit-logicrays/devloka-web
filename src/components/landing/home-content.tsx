@@ -11,6 +11,7 @@ import { cn } from "@/lib/utils";
 import { InteractiveHoverButton } from "@/components/magicui/interactive-hover-button";
 import { AnimatedList } from "@/components/magicui/animated-list";
 
+import { UsersIcon, GlobeIcon, ClockFadingIcon, LinkIcon } from "lucide-react";
 /**
  * HomeContent component for the landing page.
  * This component renders the main content of the home page.
@@ -76,39 +77,34 @@ const ContentReveal: React.FC = (): JSX.Element => {
 interface Item {
   name: string;
   description: string;
-  icon: string;
+  icon: React.ReactNode;
   color: string;
-  time: string;
+  time?: string;
 }
 
 let notifications = [
   {
-    name: "Payment received",
-    description: "Magic UI",
-    time: "15m ago",
-
-    icon: "💸",
+    name: "Real Time Collaboration",
+    description: "Collaborate with your team in real-time.",
+    icon: <UsersIcon />,
     color: "#00C9A7",
   },
   {
-    name: "User signed up",
-    description: "Magic UI",
-    time: "10m ago",
-    icon: "👤",
+    name: "Anywhere in the World",
+    description: "Access your code from anywhere, anytime.",
+    icon: <GlobeIcon />,
     color: "#FFB800",
   },
   {
-    name: "New message",
-    description: "Magic UI",
-    time: "5m ago",
-    icon: "💬",
+    name: "Real Time",
+    description: "Real-time code execution and sharing.",
+    icon: <ClockFadingIcon />,
     color: "#FF3D71",
   },
   {
-    name: "New event",
-    description: "Magic UI",
-    time: "2m ago",
-    icon: "🗞️",
+    name: "Custom Urls",
+    description: "Create custom URLs for your projects.",
+    icon: <LinkIcon />,
     color: "#1E86FF",
   },
 ];
@@ -140,8 +136,6 @@ const Notification = ({ name, description, icon, color, time }: Item) => {
         <div className="flex flex-col overflow-hidden">
           <figcaption className="flex flex-row items-center whitespace-pre text-lg font-medium dark:text-white ">
             <span className="text-sm sm:text-lg">{name}</span>
-            <span className="mx-1">·</span>
-            <span className="text-xs text-gray-500">{time}</span>
           </figcaption>
           <p className="text-sm font-normal dark:text-white/60">
             {description}
