@@ -1,6 +1,10 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+* {
+  scrollbar-width: none;
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -134,21 +138,12 @@
       opacity: 0;
     }
   }
-  --animate-rainbow: rainbow var(--speed, 2s) infinite linear;
-  @keyframes rainbow {
-    0% {
-      background-position: 0%;
+  @keyframes shiny-text {
+  0%, 90%, 100% {
+    background-position: calc(-100% - var(--shiny-width)) 0;
     }
-    100% {
-      background-position: 200%;
-    }
-  }
-  @keyframes rainbow {
-    0% {
-      background-position: 0%;
-    }
-    100% {
-      background-position: 200%;
+  30%, 60% {
+    background-position: calc(100% + var(--shiny-width)) 0;
     }
   }
 }
