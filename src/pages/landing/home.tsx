@@ -10,6 +10,7 @@ import VideoDialog from "@/components/landing/video-dialog";
 import FeaturesParallax from "@/components/landing/features";
 import TextRevealHome from "@/components/landing/text-reveal-home";
 import ClientMarquee from "@/components/landing/clients";
+import Footer from "@/components/custom/footer";
 
 /**
  * The Home component renders the home page of the application.
@@ -25,6 +26,7 @@ const Home: React.FC = () => {
       <FeaturesParallax />
       <TextRevealHome />
       <ClientMarquee />
+      <Footer />
     </div>
   );
 };
