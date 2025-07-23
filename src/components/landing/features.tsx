@@ -46,7 +46,6 @@ export const products = [
     title: "Live Code Updates",
     description:
       "See every change in real time, perfect for debugging, teaching, or interviews.",
-    thumbnail:
-      "https://aceternity.com/images/products/thumbnails/new/editorially.png",
+    thumbnail: liveUpdates,
   },
 ];
