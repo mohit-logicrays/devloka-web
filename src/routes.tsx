@@ -7,6 +7,7 @@ import { useUtilsContext } from "./providers/utils-providers.tsx";
  */
 import Home from "@/pages/landing//home.tsx";
 import Preloader from "@/components/custom/preloader.tsx";
+import Hello from "./pages/Hello.tsx";
 
 export function AppRoutes() {
   const { preloader } = useUtilsContext();
@@ -15,6 +16,7 @@ export function AppRoutes() {
       {preloader && <Preloader />}
       <Routes>
         <Route path={RoutesPaths.HOME} element={<Home />} />
+        <Route path="/hello" element={<Hello />} />
       </Routes>
     </Router>
   );
