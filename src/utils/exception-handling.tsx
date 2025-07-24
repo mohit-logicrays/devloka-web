@@ -3,8 +3,8 @@
  * Sampatti Default Exception handling
  */
 import axios from "axios";
-import { AxiosResponse } from "axios";
-import { Id, toast } from "react-toastify";
+import { type AxiosResponse } from "axios";
+import { type Id, toast } from "react-toastify";
 import {
   getLocalStorage,
   setLocalStorage,
@@ -18,7 +18,7 @@ import { errorToast } from "./message-utils";
 const REFRESH_URL = getApiUrl("REFRESH");
 
 /**
- * Refresh Token 
+ * Refresh Token
  * @returns Promise
  */
 async function refreshAccessToken(): Promise<boolean> {
@@ -34,7 +34,7 @@ async function refreshAccessToken(): Promise<boolean> {
       return true;
     }
   } catch (error) {
-    console.error(error)
+    console.error(error);
   }
 
   removeLocalStorage("access");

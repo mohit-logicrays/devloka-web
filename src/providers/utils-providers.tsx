@@ -16,8 +16,7 @@ export const UtilsProvider = ({ children }: { children: React.ReactNode }) => {
   /**
    * Function to update the preloader state
    */
-  const updatePreloader = (
-  ) => {
+  const updatePreloader = () => {
     setPreloader(false);
   };
 

@@ -32,7 +32,7 @@ const useCodeSocket = (codespaceId: string) => {
       socketRef.current.send(JSON.stringify({ content: newContent }));
       setContent(newContent); // optimistically update local state
     }
-  };
+  };  
 
   return [content, sendUpdate] as const;
 };

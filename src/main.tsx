@@ -18,25 +18,28 @@ import { ToastContainer, Slide } from "react-toastify";
  */
 import { ThemeProvider } from "@/providers/theme-provider";
 import { UtilsProvider } from "./providers/utils-providers";
+import { CodespaceProvider } from "./providers/codespace-provider";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <UtilsProvider>
-      <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-        <ToastContainer
-          draggablePercent={60}
-          draggable
-          stacked
-          position="top-right"
-          autoClose={5000}
-          hideProgressBar={false}
-          pauseOnFocusLoss
-          pauseOnHover
-          theme="colored"
-          transition={Slide}
-        />
-        <AppRoutes />
-      </ThemeProvider>
+      <CodespaceProvider>
+        <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+          <ToastContainer
+            draggablePercent={60}
+            draggable
+            stacked
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            pauseOnFocusLoss
+            pauseOnHover
+            theme="colored"
+            transition={Slide}
+          />
+          <AppRoutes />
+        </ThemeProvider>
+      </CodespaceProvider>
     </UtilsProvider>
   </StrictMode>
 );

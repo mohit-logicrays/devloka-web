@@ -1,33 +1,32 @@
+import "./preloder.css";
 
+/**
+ * A styled preloader component that displays a loading animation.
+ * The component is styled using Tailwind CSS and supports dark/light mode.
+ */
 export default function Preloader() {
-    return (
-        <div
-            className="w-[100%] h-screen gap-1 pt-40 pb-40 relative flex items-center justify-center"
-        >
-            <div
-                className="flex flex-col items-center animate-[bounce_1s_ease-in-out_infinite_0.1s]"
-            >
-                <div className="w-1 h-6 bg-green-500"></div>
-                <div className="w-3 h-12 bg-green-500 rounded-sm"></div>
-                <div className="w-1 h-6 bg-green-500"></div>
-            </div>
-
-            <div
-                className="flex flex-col items-center animate-[bounce_1s_ease-in-out_infinite_0.2s]"
-            >
-                <div className="w-1 h-6 bg-red-500"></div>
-                <div className="w-3 h-12 bg-red-500 rounded-sm"></div>
-                <div className="w-1 h-6 bg-red-500"></div>
-            </div>
-
-            <div
-                className="flex flex-col items-center animate-[bounce_1s_ease-in-out_infinite_0.1s]"
-            >
-                <div className="w-1 h-6 bg-green-500"></div>
-                <div className="w-3 h-12 bg-green-500 rounded-sm"></div>
-                <div className="w-1 h-6 bg-green-500"></div>
-            </div>
+  return (
+    <>
+      <div className="w-screen h-screen transition-colors duration-300 bg-[#e8e8e8] dark:bg-[#1a1a1a] relative">
+        <div className="loader">
+          <span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+          </span>
+          <div className="base">
+            <span></span>
+            <div className="face"></div>
+          </div>
         </div>
-
-    );
+        <div className="longfazers">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    </>
+  );
 }
