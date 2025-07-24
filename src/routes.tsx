@@ -8,6 +8,8 @@ import { useUtilsContext } from "./providers/utils-providers.tsx";
 import Home from "@/pages/landing//home.tsx";
 import Preloader from "@/components/custom/preloader.tsx";
 import Codespace from "./pages/codespace/codespace.tsx";
+import Login from "./pages/auth/login.tsx";
+import Register from "./pages/auth/register.tsx";
 
 /**
  * AppRoutes component.
@@ -24,6 +26,10 @@ export function AppRoutes() {
     <Router>
       {preloader && <Preloader />}
       <Routes>
+        {/* Auth routes */}
+        <Route path={RoutesPaths.LOGIN} element={<Login />} />
+        <Route path={RoutesPaths.REGISTER} element={<Register />} />
+        {/* Main routes */}
         <Route path={RoutesPaths.HOME} element={<Home />} />
         <Route path="/:codespaceId" element={<Codespace />} />
       </Routes>

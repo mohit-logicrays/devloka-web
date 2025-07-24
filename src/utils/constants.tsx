@@ -9,9 +9,9 @@ export const PORT = "8000/";
 export const ApiUrl = HTTP + HOST + PORT;
 
 export const UrlPaths = {
-  LOGIN: "users/login",
-  REFRESH: "users/login/refresh",
-  REGISTER: "users/register",
+  LOGIN: "api/v1/login/",
+  REFRESH: "api/v1/token/refresh/",
+  REGISTER: "api/v1/users/",
   AUTH_USER: "api/v1/users/me/",
   CODESPACE: "api/v1/codespaces/",
   SYNTAXES: "api/v1/syntax/",
@@ -29,4 +29,7 @@ export const ignoreUrls = ["/login", "/login/", "/register", "/register/"];
 
 export const RoutesPaths = {
   HOME: "/",
+  DASHBOARD: "/dashboard",
+  LOGIN: "/login",
+  REGISTER: "/register",
 };
