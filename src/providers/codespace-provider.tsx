@@ -7,20 +7,18 @@ interface Syntax {
   description: string;
   status: number;
 }
-interface CodespaceContextType {
+interface Codespace {
+  id: string;
+  title: string;
+  description: string;
+  status: number;
+  syntax: Syntax;
+  user: null;
   content: string;
-  codespace:
-    | {
-        id: string;
-        title: string;
-        description: string;
-        status: number;
-        syntax: Syntax;
-        user: null;
-        content: string;
-        is_private: boolean;
-      }
-    | {};
+  is_private: boolean;
+}
+interface CodespaceContextType {
+  codespace: Codespace | {};
   codeSpaceContent: (codespaceId: string) => void;
   syntaxes: Syntax[];
   getSyntaxes: () => void;
@@ -39,9 +37,9 @@ export const CodespaceProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const [content, setContent] = useState("");
-  const [codespace, setCodespace] = useState({});
+  const [codespace, setCodespace] = useState<Codespace | {}>({});
   const [syntaxes, setSyntaxes] = useState<Syntax[]>([]);
+
   /**
    * Fetches or updates the content for a specific codespace.
    *
@@ -58,9 +56,13 @@ export const CodespaceProvider = ({
       () => {}
     );
     setCodespace(response?.data);
-    setContent(response?.data?.content);
   };
 
+  /**
+   * Retrieves the list of supported syntaxes from the backend.
+   *
+   * @returns Promise that resolves when the syntaxes have been fetched.
+   */
   const getSyntaxes = async () => {
     const response = await getRequest(
       `${ApiUrl}${UrlPaths.SYNTAXES}`,
@@ -72,7 +74,6 @@ export const CodespaceProvider = ({
   };
 
   const data = {
-    content,
     codespace,
     codeSpaceContent,
     syntaxes,

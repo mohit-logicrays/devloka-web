@@ -11,7 +11,7 @@ const UtilsContext = createContext<UtilsContextType | null>(null);
 
 export const UtilsProvider = ({ children }: { children: React.ReactNode }) => {
   const [toggle, setToggle] = useState(true);
-  const [preloader, setPreloader] = useState(false);
+  const [preloader, setPreloader] = useState(true);
 
   /**
    * Function to update the preloader state

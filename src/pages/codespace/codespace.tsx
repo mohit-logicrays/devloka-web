@@ -6,7 +6,6 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useCodespaceContext } from "@/providers/codespace-provider";
-import { useUtilsContext } from "@/providers/utils-providers";
 import { AppSidebar } from "@/components/codespace/app-sidebar";
 import { Separator } from "@/components/ui/separator";
 import { ModeToggle } from "@/components/custom/theme";
@@ -22,6 +21,7 @@ import {
 } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
 import { SaveIcon, ShareIcon } from "lucide-react";
+import CodespaceArea from "@/components/codespace/codespace-area";
 
 /**
  * Codespace page
@@ -32,14 +32,12 @@ import { SaveIcon, ShareIcon } from "lucide-react";
  */
 export default function Codespace(): React.JSX.Element {
   const { codespaceId } = useParams();
-  const { updatePreloader } = useUtilsContext();
-  const { content, codeSpaceContent } = useCodespaceContext();
+  const { codeSpaceContent } = useCodespaceContext();
   useEffect(() => {
     if (codespaceId) {
       codeSpaceContent(codespaceId);
     }
   }, [codespaceId]);
-  content && updatePreloader();
   return (
     <div>
       <SidebarProvider>
@@ -90,14 +88,7 @@ export default function Codespace(): React.JSX.Element {
               </div>
             </div>
           </header>
-          <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-            <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-              <div className="bg-muted/50 aspect-video rounded-xl" />
-              <div className="bg-muted/50 aspect-video rounded-xl" />
-              <div className="bg-muted/50 aspect-video rounded-xl" />
-            </div>
-            <div className="bg-muted/50 min-h-[100vh] flex-1 rounded-xl md:min-h-min" />
-          </div>
+          <CodespaceArea />
         </SidebarInset>
       </SidebarProvider>
     </div>

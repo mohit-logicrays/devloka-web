@@ -7,7 +7,7 @@ import "./preloder.css";
 export default function Preloader() {
   return (
     <>
-      <div className="w-screen h-screen transition-colors duration-300 bg-[#e8e8e8] dark:bg-[#1a1a1a] relative">
+      <div className="w-screen h-screen transition-colors duration-300 bg-[#e8e8e8] dark:bg-[#1a1a1a] relative z-[100]">
         <div className="loader">
           <span>
             <span></span>
