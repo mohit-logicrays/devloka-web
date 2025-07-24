@@ -4,14 +4,7 @@ import { useCodespaceContext } from "@/providers/codespace-provider";
 import { useUtilsContext } from "@/providers/utils-providers";
 
 /**
- * Connects to a codespace's WebSocket endpoint and updates the component state whenever
- * a new message is received. The `sendUpdate` function can be used to send an updated
- * version of the content, which will be optimistically applied to the local state
- * immediately and then confirmed by the server.
- *
- * @param codespaceId The unique identifier for the codespace.
- * @returns A tuple containing the content of the codespace and a function to send an
- * updated version of the content.
+ * Custom hook to manage WebSocket connection for code sharing.
  */
 const useCodeSocket = (codespaceId: string | undefined) => {
   const [content, setContent] = useState("");
@@ -20,30 +13,45 @@ const useCodeSocket = (codespaceId: string | undefined) => {
   useEffect(() => {
     if (!codespaceId) return;
 
-    socketRef.current = new WebSocket(
-      `ws://localhost:8000/ws/codespace/${codespaceId}/`
-    );
+    let socket: WebSocket;
 
-    socketRef.current.onmessage = (event) => {
-      try {
-        const data = JSON.parse(event.data);
-        if (typeof data.content === "string") {
-          setContent(data.content);
+    const connect = () => {
+      socket = new WebSocket(`ws://localhost:8000/ws/codespace/${codespaceId}/`);
+      socketRef.current = socket;
+
+      socket.onmessage = (event) => {
+        try {
+          const data = JSON.parse(event.data);
+          if (typeof data.content === "string") {
+            setContent(data.content);
+          }
+        } catch (error) {
+          console.error("WebSocket message parse error:", error);
         }
-      } catch (e) {
-        // handle parse error
-      }
+      };
+
+      socket.onclose = () => {
+        console.warn("WebSocket closed. Reconnecting in 3 seconds...");
+        setTimeout(connect, 3000);
+      };
+
+      socket.onerror = (err) => {
+        console.error("WebSocket error:", err);
+        socket.close();
+      };
     };
 
+    connect();
+
     return () => {
-      socketRef.current?.close();
+      socket?.close();
     };
   }, [codespaceId]);
 
   const sendUpdate = (newContent: string) => {
-    if (socketRef.current && socketRef.current.readyState === WebSocket.OPEN) {
+    if (socketRef.current?.readyState === WebSocket.OPEN) {
       socketRef.current.send(JSON.stringify({ content: newContent }));
-      setContent(newContent); // optimistically update local state
+      setContent(newContent); // optimistic update
     }
   };
 
@@ -51,11 +59,7 @@ const useCodeSocket = (codespaceId: string | undefined) => {
 };
 
 /**
- * CodespaceArea component
- * This component renders the main area of the codespace page.
- * It's a simple centered heading with the title "Codespace Area".
- * It's styled with Tailwind CSS.
- * @returns {JSX.Element} The rendered CodespaceArea component.
+ * Main collaborative codespace area.
  */
 export default function CodespaceArea(): React.JSX.Element {
   const { codespace } = useCodespaceContext();
@@ -63,10 +67,13 @@ export default function CodespaceArea(): React.JSX.Element {
     codespace && typeof codespace === "object" && "id" in codespace
       ? (codespace as { id: string }).id
       : undefined;
+
   const [content, sendUpdate] = useCodeSocket(codespaceId);
   const { updatePreloader } = useUtilsContext();
 
-  codespace && updatePreloader();
+  useEffect(() => {
+    if (codespace) updatePreloader();
+  }, [codespace]);
 
   return (
     <div className="h-full w-full p-5">
@@ -80,11 +87,11 @@ export default function CodespaceArea(): React.JSX.Element {
         </div>
         <Textarea
           style={{ scrollbarWidth: "auto" }}
-          defaultValue={content}
+          value={content}
           className="h-screen overflow-y-auto resize-none scroll-smooth"
           onChange={(e) => sendUpdate(e.target.value)}
           placeholder="Write or paste code here then share. Anyone you share with will see code as it is typed!"
-        ></Textarea>
+        />
       </div>
     </div>
   );
