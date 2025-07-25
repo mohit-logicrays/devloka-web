@@ -10,7 +10,7 @@ import {
   exception404,
   exception500,
 } from "./exception-handling";
-import {type  Id } from "react-toastify";
+import { type Id } from "react-toastify";
 /**
  * Common function for axios requests
  * @param url string
@@ -26,7 +26,7 @@ export async function axiosRequest(
   data: any = null,
   id: Id,
   add_bearer: boolean = true,
-  callback?: (id: Id, response: AxiosResponse) => void,
+  callback?: (id: Id, response: AxiosResponse) => void
 ) {
   const config: AxiosRequestConfig = {
     headers: {
@@ -36,6 +36,9 @@ export async function axiosRequest(
   if (add_bearer) {
     const token = localStorage.getItem("access");
     if (token) {
+      if (!config.headers) {
+        config.headers = {};
+      }
       config.headers.Authorization = `Bearer ${token}`;
     }
   }
@@ -59,8 +62,8 @@ export async function axiosRequest(
         method,
         data,
         id,
-        config,
-        callback || (() => { }),
+        add_bearer,
+        callback || (() => {}),
         error
       );
     } else if (error.response.status === 403) {
@@ -78,7 +81,7 @@ export async function axiosRequest(
  */
 export async function getRequest(
   url: string,
-  id: Id | null,
+  id: Id,
   add_bearer: boolean = true,
   callback?: (id: Id, response: AxiosResponse) => void
 ) {
