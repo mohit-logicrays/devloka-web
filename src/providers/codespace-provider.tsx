@@ -20,6 +20,7 @@ interface Codespace {
 interface CodespaceContextType {
   codespace: Codespace | {};
   codeSpaceContent: (codespaceId: string) => void;
+  partialUpdateCodespace: (codespaceId: string) => void;
   syntaxes: Syntax[];
   getSyntaxes: () => void;
 }
@@ -58,6 +59,16 @@ export const CodespaceProvider = ({
     setCodespace(response?.data);
   };
 
+  const partialUpdateCodespace = async (codespaceId: string) => {
+    const response = await getRequest(
+      `${ApiUrl}${UrlPaths.CODESPACE}${codespaceId}/`,
+      null,
+      false,
+      () => {}
+    );
+    setCodespace(response?.data);
+  };
+
   /**
    * Retrieves the list of supported syntaxes from the backend.
    *
@@ -75,6 +86,7 @@ export const CodespaceProvider = ({
 
   const data = {
     codespace,
+    partialUpdateCodespace,
     codeSpaceContent,
     syntaxes,
     getSyntaxes,

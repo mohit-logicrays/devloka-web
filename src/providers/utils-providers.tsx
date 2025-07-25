@@ -14,7 +14,8 @@ export const UtilsProvider = ({ children }: { children: React.ReactNode }) => {
   const [preloader, setPreloader] = useState(true);
 
   /**
-   * Function to update the preloader state
+   * A function that updates the preloader state to false.
+   * This should be called once the app is loaded and the preloader should be hidden.
    */
   const updatePreloader = () => {
     setPreloader(false);
