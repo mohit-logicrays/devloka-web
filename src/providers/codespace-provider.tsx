@@ -52,7 +52,7 @@ export const CodespaceProvider = ({
   const codeSpaceContent = async (codespaceId: string) => {
     const response = await getRequest(
       `${ApiUrl}${UrlPaths.CODESPACE}${codespaceId}/`,
-      null,
+      "",
       false,
       () => {}
     );
@@ -62,7 +62,7 @@ export const CodespaceProvider = ({
   const partialUpdateCodespace = async (codespaceId: string) => {
     const response = await getRequest(
       `${ApiUrl}${UrlPaths.CODESPACE}${codespaceId}/`,
-      null,
+      "",
       false,
       () => {}
     );
@@ -77,7 +77,7 @@ export const CodespaceProvider = ({
   const getSyntaxes = async () => {
     const response = await getRequest(
       `${ApiUrl}${UrlPaths.SYNTAXES}`,
-      null,
+      "",
       false,
       () => {}
     );

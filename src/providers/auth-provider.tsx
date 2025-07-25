@@ -47,7 +47,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
    * Default authenticated user action
    */
   const getAuthenticatedUser = async () => {
-    const response = await getRequest(authUserUrl, null, true, () => {});
+    const response = await getRequest(authUserUrl, "", true, () => {});
     if (response?.status === 200) {
       setAuth(response.data);
       updatePreloader();
