@@ -5,10 +5,10 @@
 export const HTTP = "http://";
 export const HTTPS = "https://";
 export const HOST = "127.0.0.1:";
-// export const HOST = "192.168.1.111:";
 export const PORT = "8000/";
-export const ApiUrl = HTTP + HOST + PORT;
-
+// export const ApiUrl = HTTP + HOST + PORT;
+export const DOMAIN = "devloka.pythonanywhere.com/";
+export const ApiUrl = HTTPS + DOMAIN;
 export const UrlPaths = {
   LOGIN: "api/v1/login/",
   REFRESH: "api/v1/token/refresh/",
