@@ -20,7 +20,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
-import { ApiUrl } from "@/utils/constants";
+import { DOMAIN } from "@/utils/constants";
 
 /**
  * Custom hook to manage WebSocket connection for code sharing.
@@ -35,7 +35,7 @@ const useCodeSocket = (codespaceId: string | undefined) => {
     let socket: WebSocket;
 
     const connect = () => {
-      socket = new WebSocket(`ws://${ApiUrl}ws/codespace/${codespaceId}/`);
+      socket = new WebSocket(`wss://${DOMAIN}ws/codespace/${codespaceId}/`);
       socketRef.current = socket;
 
       socket.onmessage = (event) => {
