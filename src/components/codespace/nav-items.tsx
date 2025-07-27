@@ -90,10 +90,8 @@ export function ThemeSelect() {
         </SelectTrigger>
         <SelectContent className="w-full">
           <SelectGroup>
-            <SelectItem value={"2"}>2</SelectItem>
-            <SelectItem value={"4"}>4</SelectItem>
-            <SelectItem value={"6"}>6</SelectItem>
-            <SelectItem value={"8"}>8</SelectItem>
+            <SelectItem value={"dark"}>Dark</SelectItem>
+            <SelectItem value={"light"}>Light</SelectItem>
           </SelectGroup>
         </SelectContent>
       </Select>

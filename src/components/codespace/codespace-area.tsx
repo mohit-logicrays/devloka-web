@@ -21,6 +21,9 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip"
 import { DOMAIN } from "@/utils/constants";
+import CodeMirror from '@uiw/react-codemirror';
+import { javascript } from '@codemirror/lang-javascript';
+import { python } from '@codemirror/lang-python';
 
 /**
  * Custom hook to manage WebSocket connection for code sharing.
@@ -98,6 +101,7 @@ export default function CodespaceArea(): React.JSX.Element {
     partialUpdateCodespace(codespace.id, new FormData(form));
     setEdit(true);
   };
+
 
   return (
     <div className="h-full w-full p-5">
@@ -191,12 +195,14 @@ export default function CodespaceArea(): React.JSX.Element {
             </div>
           </form>
         )}
-        <Textarea
-          style={{ scrollbarWidth: "auto" }}
+        <CodeMirror
           value={content}
+          height="100%"
+          extensions={[python(), javascript()]}
           className="h-screen overflow-y-auto resize-none scroll-smooth"
-          onChange={(e) => sendUpdate(e.target.value)}
+          theme="dark"
           placeholder="Write or paste code here then share. Anyone you share with will see code as it is typed!"
+          onChange={(newContent) => sendUpdate(newContent)}
         />
       </div>
     </div >

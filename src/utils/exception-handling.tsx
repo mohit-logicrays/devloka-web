@@ -24,9 +24,9 @@ const REFRESH_URL = getApiUrl("REFRESH");
 async function refreshAccessToken(): Promise<boolean> {
   const refresh = getLocalStorage("refresh");
   if (!refresh) {
+    redirectPage("/login");
     return false;
   }
-
   try {
     const response = await axios.post(REFRESH_URL, { refresh });
     if (response.status === 200) {
