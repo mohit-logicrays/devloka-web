@@ -12,6 +12,7 @@ import { InteractiveHoverButton } from "@/components/magicui/interactive-hover-b
 import { AnimatedList } from "@/components/magicui/animated-list";
 
 import { UsersIcon, GlobeIcon, ClockFadingIcon, LinkIcon } from "lucide-react";
+import { Link } from "react-router-dom";
 /**
  * HomeContent component for the landing page.
  * This component renders the main content of the home page.
@@ -19,11 +20,11 @@ import { UsersIcon, GlobeIcon, ClockFadingIcon, LinkIcon } from "lucide-react";
  * It is styled using Tailwind CSS for a modern look.
  * @returns {JSX.Element} The rendered content.
  */
-export default function HomeContent(): JSX.Element {
+export default function HomeContent({ auth }: { auth: boolean }): JSX.Element {
   return (
     <div className="grid grid-cols-5 gap-4 w-5xl mx-auto">
       <div className="col-span-3">
-        <ContentReveal />
+        <ContentReveal auth={auth} />
       </div>
       <div className="col-span-2 flex items-center justify-center">
         <AnimatedListDemo className="w-full max-w-md" />
@@ -40,7 +41,7 @@ export default function HomeContent(): JSX.Element {
  * It is styled using Tailwind CSS for a modern look.
  * @returns {JSX.Element} The rendered content.
  */
-const ContentReveal: React.FC = (): JSX.Element => {
+const ContentReveal: React.FC<{ auth: boolean }> = ({ auth }): JSX.Element => {
   return (
     <div className="size-full max-w-lg items-center justify-center overflow-hidden pt-8">
       <BoxReveal boxColor={"#5046e6"} duration={0.5}>
@@ -67,9 +68,12 @@ const ContentReveal: React.FC = (): JSX.Element => {
           words={["Free to use.", "No sign-up required."]}
         />
       </BoxReveal>
-      <InteractiveHoverButton className="mt-5">
-        Start Coding Now
-      </InteractiveHoverButton>
+      <Link
+        to={auth ? "/dashboard" : "/login"}>
+        <InteractiveHoverButton className="mt-5">
+          Start Coding Now
+        </InteractiveHoverButton>
+      </Link>
     </div>
   );
 };

@@ -13,6 +13,8 @@ import TextRevealHome from "@/components/landing/text-reveal-home";
 import ClientMarquee from "@/components/landing/clients";
 import Footer from "@/components/custom/footer";
 import { useUtilsContext } from "@/providers/utils-providers";
+import { useAuthContext } from "@/providers/auth-provider";
+
 
 /**
  * The Home component renders the home page of the application.
@@ -21,18 +23,21 @@ import { useUtilsContext } from "@/providers/utils-providers";
  */
 const Home: React.FC = () => {
   const { updatePreloader } = useUtilsContext();
+  const { auth } = useAuthContext();
+
   useEffect(() => {
     updatePreloader();
   }, []);
+
   return (
     <div>
-      <NavbarUI />
-      <HomeContent />
+      <NavbarUI auth={auth} />
+      <HomeContent auth={auth} />
       <VideoDialog />
       <FeaturesParallax />
       <TextRevealHome />
       <ClientMarquee />
-      <Footer />
+      <Footer auth={auth} />
     </div>
   );
 };

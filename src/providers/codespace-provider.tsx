@@ -1,6 +1,12 @@
 import { createContext, useContext, useState } from "react";
-import { getRequest } from "@/utils/axios-request";
+import { getRequest, patchRequest } from "@/utils/axios-request";
 import { ApiUrl, UrlPaths } from "@/utils/constants";
+import { loadingToast } from "@/utils/message-utils";
+import { LoadingMessage } from "@/utils/loading-messages";
+import { updateCodesapceSuccess } from "@/utils/success";
+
+
+
 interface Syntax {
   id: number;
   title: string;
@@ -19,10 +25,10 @@ interface Codespace {
 }
 interface CodespaceContextType {
   codespace: Codespace | {};
-  codeSpaceContent: (codespaceId: string) => void;
-  partialUpdateCodespace: (codespaceId: string) => void;
+  codeSpaceContent: (codespaceId: string) => Promise<void>;
+  partialUpdateCodespace: (codespaceId: string, data: any) => Promise<void>;
   syntaxes: Syntax[];
-  getSyntaxes: () => void;
+  getSyntaxes: () => Promise<void>;
 }
 
 const CodespaceContext = createContext<CodespaceContextType | null>(null);
@@ -38,6 +44,7 @@ export const CodespaceProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
+  let id = null;
   const [codespace, setCodespace] = useState<Codespace | {}>({});
   const [syntaxes, setSyntaxes] = useState<Syntax[]>([]);
 
@@ -54,17 +61,27 @@ export const CodespaceProvider = ({
       `${ApiUrl}${UrlPaths.CODESPACE}${codespaceId}/`,
       "",
       false,
-      () => {}
+      () => { }
     );
     setCodespace(response?.data);
   };
 
-  const partialUpdateCodespace = async (codespaceId: string) => {
-    const response = await getRequest(
+  /**
+   * Partially updates the content for a specific codespace.
+   *
+   * This function interacts with the backend to retrieve the content associated
+   * with the given codespace ID and updates the state with the new data.
+   *
+   * @param codespaceId - The unique identifier for the codespace.
+   */
+  const partialUpdateCodespace = async (codespaceId: string, data: any) => {
+    id = loadingToast(LoadingMessage.UPDATE, null);
+    const response = await patchRequest(
       `${ApiUrl}${UrlPaths.CODESPACE}${codespaceId}/`,
-      "",
+      data,
+      id,
       false,
-      () => {}
+      updateCodesapceSuccess
     );
     setCodespace(response?.data);
   };
@@ -79,7 +96,7 @@ export const CodespaceProvider = ({
       `${ApiUrl}${UrlPaths.SYNTAXES}`,
       "",
       false,
-      () => {}
+      () => { }
     );
     setSyntaxes(response?.data);
   };

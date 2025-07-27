@@ -16,7 +16,7 @@ import { useTheme } from "@/providers/theme-provider";
 import { LinkedinIcon, GithubIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 
-export default function Footer() {
+export default function Footer({ auth }: { auth: boolean }) {
   const { theme } = useTheme();
 
   return (
@@ -29,10 +29,15 @@ export default function Footer() {
             amazing together.
           </p>
           <div className="flex items-center gap-3">
-            <Button>Get Started</Button>
-            <Button variant="outline" className="text-muted-foreground">
-              Learn More
-            </Button>
+            <Link to={auth ? "/dashboard" : "/login"}>
+              <Button className="cursor-pointer">Get Started</Button>
+            </Link>
+            <Link
+              to="/about">
+              <Button variant="outline" className="cursor-pointer text-muted-foreground">
+                Learn More
+              </Button>
+            </Link>
           </div>
         </div>
         <Card className="p-0 shadow-none border-none">

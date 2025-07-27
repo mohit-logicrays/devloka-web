@@ -7,10 +7,10 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from "@/components/ui/select"
 
 export function SyntaxSelect() {
-  const { syntaxes, codespace, getSyntaxes } = useCodespaceContext();
+  const { syntaxes, codespace, getSyntaxes, partialUpdateCodespace } = useCodespaceContext();
   const [syntax, setSyntax] = useState("");
 
   useEffect(() => {
@@ -27,8 +27,18 @@ export function SyntaxSelect() {
     }
   }, [codespace]);
 
+  /**
+   * Handles the change event of the syntax select and updates the codespace
+   * with the new syntax.
+   *
+   * @param {string} value - The new syntax value to update.
+   */
   const handleChange = (value: string) => {
-    setSyntax(value);
+    // Update the codespace with the new syntax
+    if (!codespace || !("id" in codespace)) return;
+    partialUpdateCodespace(codespace?.id, {
+      syntax_id: syntaxes.find((s) => s.title === value)?.id,
+    });
   };
 
   return (

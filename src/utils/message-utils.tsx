@@ -23,7 +23,7 @@ export const errorToast = (id: Id, message: string) => {
   UpdateToast(id, message, "error");
 };
 
-export const successToast = (id: Id, message: string, successUrl: string) => {
+export const successToast = (id: Id, message: string, successUrl: string | null) => {
   UpdateToast(id, message, "success");
   if (successUrl) {
     redirectPageLazy(successUrl);

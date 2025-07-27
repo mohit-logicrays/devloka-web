@@ -58,7 +58,7 @@ const DATA = {
  * The dock is rendered with the theme toggle button at the end.
  * @returns {JSX.Element} The rendered navbar.
  */
-export default function Navbar(): React.JSX.Element {
+export default function Navbar({ auth }: { auth: boolean }): React.JSX.Element {
   return (
     <nav className="p-4 w-full flex justify-between items-center sticky top-0 z-50">
       <Link
@@ -107,11 +107,15 @@ export default function Navbar(): React.JSX.Element {
         </TooltipProvider>
       </div>
       <div className="group transition-all ease-in hover:cursor-pointer">
-        <RainbowButton>
-          <span>Get Started Now</span>
-          <ArrowRightIcon className="ml-1 size-3 transition-transform duration-300 ease-in-out group-hover:translate-x-0.5" />
-        </RainbowButton>
+        <Link
+          to={auth ? "/dashboard" : "/login"}
+        >
+          <RainbowButton>
+            <span>Get Started Now</span>
+            <ArrowRightIcon className="ml-1 size-3 transition-transform duration-300 ease-in-out group-hover:translate-x-0.5" />
+          </RainbowButton>
+        </Link>
       </div>
-    </nav>
+    </nav >
   );
 }
