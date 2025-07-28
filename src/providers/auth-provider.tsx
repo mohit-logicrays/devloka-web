@@ -1,11 +1,14 @@
 /* eslint-disable */
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { getApiUrl } from "@/utils/constants";
-import { getRequest, postRequest } from "@/utils/axios-request";
-import { loginSuccess, registerSuccess } from "@/utils/success";
+import { getRequest, postRequest, patchRequest } from "@/utils/axios-request";
+import {
+  loginSuccess,
+  registerSuccess,
+  updateUserSuccess,
+} from "@/utils/success";
 import { LoadingMessage } from "@/utils/loading-messages";
 import { loadingToast } from "@/utils/message-utils";
-import { useUtilsContext } from "@/providers/utils-providers";
 
 const loginUrl = getApiUrl("LOGIN");
 const registerUrl = getApiUrl("REGISTER");
@@ -16,6 +19,9 @@ interface AuthContextType {
   getAuthenticatedUser: () => Promise<void>;
   loginUser: (formdata: object) => Promise<void>;
   registerUser: (formdata: object) => Promise<void>;
+  updateUserDetails: (userID: number, formdata: object) => Promise<void>;
+  getUserDevspaces: () => Promise<void>;
+  userDevspaces: any[];
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -23,7 +29,7 @@ const AuthContext = createContext<AuthContextType | null>(null);
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   let id = null;
   const [auth, setAuth] = useState(null);
-  const { updatePreloader } = useUtilsContext();
+  const [userDevspaces, setUserDevspaces] = useState([]);
 
   /**
    * Default login form handling action
@@ -50,7 +56,38 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const response = await getRequest(authUserUrl, "", true, () => {});
     if (response?.status === 200) {
       setAuth(response.data);
-      updatePreloader();
+    }
+  };
+
+  /**
+   * Default action to update the user details
+   * @param data object
+   */
+  const updateUserDetails = async (userID: number, formdata: Object) => {
+    id = loadingToast(LoadingMessage.UPDATING_USER, null);
+    const response = await patchRequest(
+      getApiUrl("UPDATE_USER") + userID + "/",
+      formdata,
+      id,
+      true,
+      updateUserSuccess
+    );
+    if (response?.status === 200) getAuthenticatedUser();
+  };
+
+  /**
+   * Gets the user's codespaces and updates the codespace state.
+   * @returns {Promise<void>}
+   */
+  const getUserDevspaces = async () => {
+    const response = await getRequest(
+      getApiUrl("USER_DEVSPACES"),
+      "",
+      true,
+      () => {}
+    );
+    if (response?.status === 200) {
+      setUserDevspaces(response?.data?.results);
     }
   };
 
@@ -62,6 +99,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     getAuthenticatedUser,
     loginUser,
     registerUser,
+    updateUserDetails,
+    getUserDevspaces,
+    userDevspaces,
   };
   return <AuthContext.Provider value={data}>{children}</AuthContext.Provider>;
 };

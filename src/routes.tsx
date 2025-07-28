@@ -10,7 +10,7 @@ import Preloader from "@/components/custom/preloader.tsx";
 import Codespace from "./pages/codespace/codespace.tsx";
 import Login from "./pages/auth/login.tsx";
 import Register from "./pages/auth/register.tsx";
-
+import AccountProfile from "./pages/auth/account.tsx";
 /**
  * AppRoutes component.
  * This component renders the main routes for the application.
@@ -29,6 +29,7 @@ export function AppRoutes() {
         {/* Auth routes */}
         <Route path={RoutesPaths.LOGIN} element={<Login />} />
         <Route path={RoutesPaths.REGISTER} element={<Register />} />
+        <Route path={RoutesPaths.ACCOUNT} element={<AccountProfile   />} />
         {/* Main routes */}
         <Route path={RoutesPaths.HOME} element={<Home />} />
         <Route path="/:codespaceId" element={<Codespace />} />

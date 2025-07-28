@@ -11,7 +11,7 @@ import {
   removeLocalStorage,
   redirectPage,
 } from "./utils";
-import { getApiUrl, ignoreUrls } from "./constants";
+import { getApiUrl, appUrls } from "./constants";
 import { axiosRequest } from "./axios-request";
 import { errorToast } from "./message-utils";
 
@@ -103,14 +103,13 @@ export const exception401 = async (
     errorToast(id, error.detail || error.response.data.detail);
   }
 
-  if (ignoreUrls.includes(location.pathname)) {
-    return;
+  if (appUrls.includes(location.pathname)) {
+    const refreshed = await refreshAccessToken();
+    if (refreshed) {
+      axiosRequest(url, method, data, id, add_bearer, callback);
+    }
   }
-
-  const refreshed = await refreshAccessToken();
-  if (refreshed) {
-    axiosRequest(url, method, data, id, add_bearer, callback);
-  }
+  return;
 };
 
 export const exception403 = (id: Id, errors: any) => {

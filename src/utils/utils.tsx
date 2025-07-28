@@ -7,7 +7,6 @@ export const setLocalStorage = (instance: any) => {
   }
 };
 
-
 /**
  * Retrieves the value associated with the specified key from the local storage.
  *
@@ -47,7 +46,7 @@ export const redirectPage = (url: string) => {
  * Redirects the browser to a specified URL after a delay.
  *
  * @param url - The URL to redirect to.
- * 
+ *
  * This function uses a delay of 1000 milliseconds before changing the
  * window's location to the specified URL. Useful for lazy redirects
  * where immediate navigation is not required.
@@ -78,3 +77,15 @@ export function logOut() {
   removeLocalStorage("refresh");
   redirectPage("/login");
 }
+
+/**
+ * Smoothly scrolls the page to the element with the given id.
+ *
+ * @param id The id of the element to scroll to.
+ */
+export const scrollToSection = (id: string) => {
+  const section = document.getElementById(id);
+  if (section) {
+    section.scrollIntoView({ behavior: "smooth" });
+  }
+};

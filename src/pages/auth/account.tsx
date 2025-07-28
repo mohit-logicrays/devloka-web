@@ -1,12 +1,10 @@
 /**
- * Codespace page
- * This component renders the codespace page of the application.
+ * Account User Profile Page
  */
 
-import React, { useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { useCodespaceContext } from "@/providers/codespace-provider";
-import { AppSidebar } from "@/components/codespace/app-sidebar";
+import React from "react";
+import { Button } from "@/components/ui/button";
+import { AppSidebar } from "@/components/account/app-sidebar";
 import { Separator } from "@/components/ui/separator";
 import { ModeToggle } from "@/components/custom/theme";
 import {
@@ -19,28 +17,17 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { Button } from "@/components/ui/button";
 import { SaveIcon, ShareIcon } from "lucide-react";
-import CodespaceArea from "@/components/codespace/codespace-area";
-import { useUtilsContext } from "@/providers/utils-providers";
+import ProfileContent from "@/components/account/profile-content";
 
 /**
- * Codespace page
- * This component renders the codespace page of the application.
+ * Account Profile page
+ * This component renders the account profile page of the application.
  * It includes a navigation bar and a codespace editor.
  * It is styled using Tailwind CSS for a modern look.
- * @returns {JSX.Element} The rendered codespace page.
+ * @returns {JSX.Element} The rendered account profile page.
  */
-export default function Codespace(): React.JSX.Element {
-  const { codespaceId } = useParams();
-  const { codeSpaceContent } = useCodespaceContext();
-  const { updatePreloader } = useUtilsContext();
-  useEffect(() => {
-    if (codespaceId) {
-      codeSpaceContent(codespaceId);
-      updatePreloader();
-    }
-  }, [codespaceId]);
+export default function AccountProfile(): React.JSX.Element {
   return (
     <div>
       <SidebarProvider>
@@ -91,7 +78,7 @@ export default function Codespace(): React.JSX.Element {
               </div>
             </div>
           </header>
-          <CodespaceArea />
+          <ProfileContent />
         </SidebarInset>
       </SidebarProvider>
     </div>
