@@ -12,6 +12,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import { Link } from "react-router-dom";
 
 /**
  * Renders the main navigation sidebar with collapsible menu items.
@@ -56,13 +57,15 @@ export function NavMain({
                 <SidebarMenuItem
                   onClick={() => scrollToSection(item.url || "")}
                 >
-                  <SidebarMenuButton
-                    tooltip={item.title}
-                    onClick={open ? undefined : toggleSidebar}
-                  >
-                    {item.icon && <item.icon />}
-                    <span>{item.title}</span>
-                  </SidebarMenuButton>
+                  <Link to={item.url || ""}>
+                    <SidebarMenuButton
+                      tooltip={item.title}
+                      onClick={open ? undefined : toggleSidebar}
+                    >
+                      {item.icon && <item.icon />}
+                      <span>{item.title}</span>
+                    </SidebarMenuButton>
+                  </Link>
                 </SidebarMenuItem>
               </TooltipTrigger>
               <TooltipContent side="right">{item.description}</TooltipContent>

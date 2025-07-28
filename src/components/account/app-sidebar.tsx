@@ -15,6 +15,7 @@ import {
   SidebarRail,
   SidebarMenuButton,
 } from "@/components/ui/sidebar";
+import { getApiUrl } from "@/utils/constants";
 
 const data = {
   navMain: [
@@ -33,7 +34,7 @@ const data = {
     {
       title: "Create New Codespace",
       description: "Create a new codespace.",
-      url: "#create-codespace",
+      url: getApiUrl("CREATE_CODESPACE"),
       icon: CirclePlusIcon,
     },
   ],
