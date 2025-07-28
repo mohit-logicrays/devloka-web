@@ -9,7 +9,6 @@ import {
 } from "@/utils/success";
 import { LoadingMessage } from "@/utils/loading-messages";
 import { loadingToast } from "@/utils/message-utils";
-import { useUtilsContext } from "@/providers/utils-providers";
 
 const loginUrl = getApiUrl("LOGIN");
 const registerUrl = getApiUrl("REGISTER");
@@ -21,6 +20,8 @@ interface AuthContextType {
   loginUser: (formdata: object) => Promise<void>;
   registerUser: (formdata: object) => Promise<void>;
   updateUserDetails: (userID: number, formdata: object) => Promise<void>;
+  getUserDevspaces: () => Promise<void>;
+  userDevspaces: any[];
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -28,7 +29,7 @@ const AuthContext = createContext<AuthContextType | null>(null);
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   let id = null;
   const [auth, setAuth] = useState(null);
-  const { updatePreloader } = useUtilsContext();
+  const [userDevspaces, setUserDevspaces] = useState([]);
 
   /**
    * Default login form handling action
@@ -55,7 +56,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const response = await getRequest(authUserUrl, "", true, () => {});
     if (response?.status === 200) {
       setAuth(response.data);
-      updatePreloader();
     }
   };
 
@@ -75,6 +75,22 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     if (response?.status === 200) getAuthenticatedUser();
   };
 
+  /**
+   * Gets the user's codespaces and updates the codespace state.
+   * @returns {Promise<void>}
+   */
+  const getUserDevspaces = async () => {
+    const response = await getRequest(
+      getApiUrl("USER_DEVSPACES"),
+      "",
+      true,
+      () => {}
+    );
+    if (response?.status === 200) {
+      setUserDevspaces(response?.data?.results);
+    }
+  };
+
   useEffect(() => {
     getAuthenticatedUser();
   }, []);
@@ -84,6 +100,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     loginUser,
     registerUser,
     updateUserDetails,
+    getUserDevspaces,
+    userDevspaces,
   };
   return <AuthContext.Provider value={data}>{children}</AuthContext.Provider>;
 };

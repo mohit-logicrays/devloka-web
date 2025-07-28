@@ -22,6 +22,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { SaveIcon, ShareIcon } from "lucide-react";
 import CodespaceArea from "@/components/codespace/codespace-area";
+import { useUtilsContext } from "@/providers/utils-providers";
 
 /**
  * Codespace page
@@ -33,9 +34,11 @@ import CodespaceArea from "@/components/codespace/codespace-area";
 export default function Codespace(): React.JSX.Element {
   const { codespaceId } = useParams();
   const { codeSpaceContent } = useCodespaceContext();
+  const { updatePreloader } = useUtilsContext();
   useEffect(() => {
     if (codespaceId) {
       codeSpaceContent(codespaceId);
+      updatePreloader();
     }
   }, [codespaceId]);
   return (

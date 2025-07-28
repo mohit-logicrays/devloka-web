@@ -1,7 +1,13 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { useCodespaceContext } from "@/providers/codespace-provider";
-import { CheckIcon, InfoIcon, PencilIcon, XIcon } from "lucide-react";
+import {
+  CheckIcon,
+  InfoIcon,
+  PencilIcon,
+  XIcon,
+  GitForkIcon,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -24,6 +30,7 @@ import { DOMAIN } from "@/utils/constants";
 import CodeMirror from "@uiw/react-codemirror";
 import { javascript } from "@codemirror/lang-javascript";
 import { python } from "@codemirror/lang-python";
+import { useAuthContext } from "@/providers/auth-provider";
 
 /**
  * Custom hook to manage WebSocket connection for code sharing.
@@ -85,6 +92,7 @@ const useCodeSocket = (codespaceId: string | undefined) => {
  */
 export default function CodespaceArea(): React.JSX.Element {
   const { codespace, partialUpdateCodespace } = useCodespaceContext();
+  const { auth } = useAuthContext();
   const codespaceId =
     codespace && typeof codespace === "object" && "id" in codespace
       ? (codespace as { id: string }).id
@@ -93,6 +101,16 @@ export default function CodespaceArea(): React.JSX.Element {
   const [content, sendUpdate] = useCodeSocket(codespaceId);
   const [edit, setEdit] = useState(true);
 
+  /**
+   * Handles the submission of the codespace form by sending a PATCH request
+   * to the server with the new data.
+   *
+   * This function first prevents the default form submission behavior,
+   * then checks if there is a valid codespace object before proceeding.
+   * If the object is valid, the function converts the form data to a
+   * FormData object and sends it to the server as a PATCH request.
+   * Finally, the function sets the "edit" state to true.
+   */
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!codespace || !("id" in codespace)) return;
@@ -100,6 +118,23 @@ export default function CodespaceArea(): React.JSX.Element {
     if (!form) return;
     partialUpdateCodespace(codespace.id, new FormData(form));
     setEdit(true);
+  };
+
+  /**
+   * Handles click events for a specific item by its ID.
+   *
+   * This function checks if a valid codespace exists before
+   * proceeding with any operations related to the item.
+   *
+   * @param id - The unique identifier of the item to handle.
+   */
+
+  const handleClick = () => {
+    if (!codespace || !("id" in codespace)) return;
+    if (!auth || !("id" in auth)) return;
+    const formData = new FormData();
+    formData.append("user_id", auth?.id);
+    partialUpdateCodespace(codespace.id, formData);
   };
 
   return (
@@ -112,11 +147,31 @@ export default function CodespaceArea(): React.JSX.Element {
                 ? codespace.title
                 : "Codespace Area"}
             </h1>
-            <div className="flex gap-x-2 items-center">
+            <div className="flex items-center gap-x-2">
+              {auth && "id" in auth && (
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      className="size-8"
+                      variant={"outline"}
+                      onClick={handleClick}
+                    >
+                      <GitForkIcon className="h-4 w-4" />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Fork Dev Space</p>
+                  </TooltipContent>
+                </Tooltip>
+              )}
               <Tooltip>
-                <TooltipTrigger>
-                  <Button variant={"ghost"} onClick={() => setEdit(false)}>
-                    <PencilIcon />
+                <TooltipTrigger asChild>
+                  <Button
+                    className="size-8"
+                    variant={"outline"}
+                    onClick={() => setEdit(false)}
+                  >
+                    <PencilIcon className="h-4 w-4" />
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>
@@ -125,9 +180,11 @@ export default function CodespaceArea(): React.JSX.Element {
               </Tooltip>
               <AlertDialog>
                 <Tooltip>
-                  <TooltipTrigger>
-                    <AlertDialogTrigger>
-                      <InfoIcon />
+                  <TooltipTrigger asChild>
+                    <AlertDialogTrigger asChild>
+                      <Button className="size-8" variant={"outline"}>
+                        <InfoIcon className="h-4 w-4" />
+                      </Button>
                     </AlertDialogTrigger>
                   </TooltipTrigger>
                   <TooltipContent>
@@ -146,8 +203,8 @@ export default function CodespaceArea(): React.JSX.Element {
                           Update Codespace Details.
                         </AlertDialogTitle>
                         <AlertDialogTrigger asChild>
-                          <Button variant={"ghost"}>
-                            <XIcon className="h-6 w-6" />
+                          <Button className="size-8" variant={"outline"}>
+                            <XIcon className="h-4 w-4" />
                           </Button>
                         </AlertDialogTrigger>
                       </div>
@@ -183,9 +240,7 @@ export default function CodespaceArea(): React.JSX.Element {
                       </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
-                      <Button data-slot="alert-dialog-trigger" type="submit">
-                        Save
-                      </Button>
+                      <Button type="submit">Save</Button>
                     </AlertDialogFooter>
                   </form>
                 </AlertDialogContent>
@@ -207,9 +262,9 @@ export default function CodespaceArea(): React.JSX.Element {
             />
             <div className="flex gap-x-2">
               <Tooltip>
-                <TooltipTrigger>
-                  <Button>
-                    <CheckIcon className="h-6 w-6" />
+                <TooltipTrigger asChild>
+                  <Button className="size-8" variant={"outline"}>
+                    <CheckIcon className="h-4 w-4" />
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>
@@ -220,7 +275,7 @@ export default function CodespaceArea(): React.JSX.Element {
           </form>
         )}
         <CodeMirror
-          value={content}
+          value={content ? content : codespace?.content || ""}
           height="100%"
           extensions={[python(), javascript()]}
           className="h-screen overflow-y-auto resize-none scroll-smooth"

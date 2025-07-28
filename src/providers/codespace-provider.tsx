@@ -5,8 +5,6 @@ import { loadingToast } from "@/utils/message-utils";
 import { LoadingMessage } from "@/utils/loading-messages";
 import { updateCodesapceSuccess } from "@/utils/success";
 
-
-
 interface Syntax {
   id: number;
   title: string;
@@ -61,7 +59,7 @@ export const CodespaceProvider = ({
       `${ApiUrl}${UrlPaths.CODESPACE}${codespaceId}/`,
       "",
       false,
-      () => { }
+      () => {}
     );
     setCodespace(response?.data);
   };
@@ -96,7 +94,7 @@ export const CodespaceProvider = ({
       `${ApiUrl}${UrlPaths.SYNTAXES}`,
       "",
       false,
-      () => { }
+      () => {}
     );
     setSyntaxes(response?.data);
   };

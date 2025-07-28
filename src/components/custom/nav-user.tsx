@@ -1,7 +1,13 @@
 "use client";
 
-import { BadgeCheck, Bell, ChevronsUpDown, LogOut } from "lucide-react";
-
+import {
+  LogInIcon,
+  BadgeCheck,
+  Bell,
+  ChevronsUpDown,
+  LogOut,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -19,17 +25,39 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { useAuthContext } from "@/providers/auth-provider";
+import { useUtilsContext } from "@/providers/utils-providers";
 import { logOut } from "@/utils/utils";
 import { Link } from "react-router-dom";
 import avtar from "@/assets/img/webp/avtar.webp";
+import { useEffect } from "react";
 
 export function NavUser() {
   const { isMobile } = useSidebar();
   const { auth } = useAuthContext();
+  const { updatePreloader } = useUtilsContext();
 
   if (!auth) {
-    return null;
+    return (
+      <SidebarMenu>
+        <SidebarMenuItem>
+          <Link to="/login">
+            <Button
+              variant="default"
+              className="w-full justify-start group/btn transition-all"
+            >
+              Login to continue
+              <LogInIcon className="h-4 w-4 transition-all hover:scale-110 group-hover/btn:translate-x-1" />
+            </Button>
+          </Link>
+        </SidebarMenuItem>
+      </SidebarMenu>
+    );
   }
+  useEffect(() => {
+    if (auth) {
+      updatePreloader();
+    }
+  });
   return (
     <SidebarMenu>
       <SidebarMenuItem>

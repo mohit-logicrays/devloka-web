@@ -16,6 +16,7 @@ export const UrlPaths = {
   AUTH_USER: "api/v1/users/me/",
   UPDATE_USER: "api/v1/users/",
   CODESPACE: "api/v1/codespaces/",
+  USER_DEVSPACES: "api/v1/codespaces/user-devspaces/",
   SYNTAXES: "api/v1/syntax/",
 };
 
@@ -28,6 +29,7 @@ export const getApiUrl = (path: string) => {
 };
 
 export const ignoreUrls = ["/login", "/login/", "/register", "/register/"];
+export const appUrls = ["/account/", "/account"];
 
 export const RoutesPaths = {
   HOME: "/",

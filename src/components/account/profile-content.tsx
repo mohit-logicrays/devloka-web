@@ -25,13 +25,17 @@ import {
 } from "@/components/ui/alert-dialog";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { useAuthContext } from "@/providers/auth-provider";
+import { useEffect } from "react";
+import { Link } from "react-router-dom";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 type Inputs = {
   delete_account: string;
 };
 
 export default function ProfileContent() {
-  const { auth, updateUserDetails } = useAuthContext();
+  const { auth, updateUserDetails, getUserDevspaces, userDevspaces } =
+    useAuthContext();
   const {
     register,
     handleSubmit,
@@ -51,13 +55,21 @@ export default function ProfileContent() {
       first_name: form.first_name.value,
       last_name: form.last_name.value,
       username: form.username.value,
+      avatar: form.avatar.files[0],
     };
     if (data.first_name === auth?.first_name) delete data.first_name;
     if (data.last_name === auth?.last_name) delete data.last_name;
     if (data.username === auth?.username) delete data.username;
+    if (form.avatar.files.length > 0) {
+      data.avatar = form.avatar.files[0];
+    }
     if (Object.keys(data).length === 0) return;
     updateUserDetails(auth?.id, data);
   };
+
+  useEffect(() => {
+    getUserDevspaces();
+  }, []);
 
   return (
     <div className="flex-1 p-6 space-y-6 overflow-y-auto">
@@ -74,7 +86,17 @@ export default function ProfileContent() {
               Verified
             </Badge>
           </div>
-          <form method="POST" className="space-y-4" onSubmit={handleFormSubmit}>
+          <form
+            method="POST"
+            className="space-y-4"
+            onSubmit={handleFormSubmit}
+            encType="multipart/form-data"
+          >
+            <div className="grid gap-2">
+              <Label htmlFor="avatar">Avatar</Label>
+              <Input id="avatar" name="avatar" type="file" />
+              <p className="text-sm text-destructive"></p>
+            </div>
             <div className="grid gap-2">
               <Label htmlFor="first_name">First Name</Label>
               <Input
@@ -116,25 +138,61 @@ export default function ProfileContent() {
       <Card id="#devspaces">
         <CardContent>
           <h3 className="text-xl font-semibold mb-4">Your Dev spaces</h3>
-          <Table>
-            <TableCaption>List of your dev spaces.</TableCaption>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="w-[100px]">Invoice</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Method</TableHead>
-                <TableHead className="text-right">Amount</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              <TableRow>
-                <TableCell className="font-medium">INV001</TableCell>
-                <TableCell>Paid</TableCell>
-                <TableCell>Credit Card</TableCell>
-                <TableCell className="text-right">$250.00</TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
+          {userDevspaces.length > 0 ? (
+            <Table>
+              <TableCaption>List of your dev spaces.</TableCaption>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-[100px]">Title</TableHead>
+                  <TableHead>Description</TableHead>
+                  <TableHead>Private</TableHead>
+                  <TableHead>Syntax</TableHead>
+                  <TableHead className="text-right">Action</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {userDevspaces.map((devspace, index) => (
+                  <>
+                    <TableRow key={index}>
+                      <TableCell className="font-medium">
+                        {devspace?.title}
+                      </TableCell>
+                      <TableCell>
+                        {devspace?.description || "No description"}
+                      </TableCell>
+                      <TableCell>
+                        {devspace?.is_private ? (
+                          <Badge className="cursor-pointer">Yes</Badge>
+                        ) : (
+                          <Badge className="cursor-pointer">No</Badge>
+                        )}
+                      </TableCell>
+                      <TableCell>
+                        <Badge className="cursor-pointer">
+                          {devspace?.syntax?.title}
+                        </Badge>
+                      </TableCell>
+                      <TableCell className="flex gap-x-2 justify-end items-center">
+                        <Link to={`/${devspace?.id}`}>
+                          <Button size={"sm"}>Open</Button>
+                        </Link>
+                        <Button size={"sm"} variant={"destructive"}>
+                          Delete
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  </>
+                ))}
+              </TableBody>
+            </Table>
+          ) : (
+            <Alert variant="destructive">
+              <AlertTitle>No dev spaces found!</AlertTitle>
+              <AlertDescription>
+                You can create a new dev space, or fork from an existing one.
+              </AlertDescription>
+            </Alert>
+          )}
         </CardContent>
       </Card>
 

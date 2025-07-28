@@ -30,7 +30,7 @@ export async function axiosRequest(
 ) {
   const config: AxiosRequestConfig = {
     headers: {
-      "Content-Type": "application/json",
+      "Content-Type": "multipart/form-data",
     },
   };
   if (add_bearer) {
@@ -63,7 +63,7 @@ export async function axiosRequest(
         data,
         id,
         add_bearer,
-        callback || (() => { }),
+        callback || (() => {}),
         error
       );
     } else if (error.response.status === 403) {
