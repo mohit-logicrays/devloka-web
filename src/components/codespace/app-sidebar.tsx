@@ -21,6 +21,7 @@ import {
   ThemeSelect,
 } from "@/components/codespace/nav-items";
 import { useCodespaceContext } from "@/providers/codespace-provider";
+import { getApiUrl } from "@/utils/constants";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { codespace } = useCodespaceContext();
@@ -60,10 +61,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         target: "_blank",
       },
       {
-        title: "Create New Codespace",
-        url: "#",
+        title: "Create New Devspace",
+        url: getApiUrl("CREATE_CODESPACE"),
         icon: CirclePlusIcon,
-        target: "_blank",
+        target: "",
       },
     ],
   };

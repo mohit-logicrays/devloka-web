@@ -18,6 +18,7 @@ export const UrlPaths = {
   CODESPACE: "api/v1/codespaces/",
   USER_DEVSPACES: "api/v1/codespaces/user-devspaces/",
   SYNTAXES: "api/v1/syntax/",
+  CREATE_CODESPACE: "api/v1/codespaces/create-codespace/",
 };
 
 export const getApiUrl = (path: string) => {
