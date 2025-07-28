@@ -31,6 +31,7 @@ import CodeMirror from "@uiw/react-codemirror";
 import { javascript } from "@codemirror/lang-javascript";
 import { python } from "@codemirror/lang-python";
 import { useAuthContext } from "@/providers/auth-provider";
+import { type Codespace } from "@/providers/codespace-provider";
 
 /**
  * Custom hook to manage WebSocket connection for code sharing.
@@ -275,7 +276,7 @@ export default function CodespaceArea(): React.JSX.Element {
           </form>
         )}
         <CodeMirror
-          value={String(content || codespace?.content || "")}
+          value={String(content || (codespace as Codespace).content || "")}
           height="100%"
           extensions={[python(), javascript()]}
           className="h-screen overflow-y-auto resize-none scroll-smooth"
