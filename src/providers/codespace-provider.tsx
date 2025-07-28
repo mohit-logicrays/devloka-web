@@ -5,13 +5,16 @@ import { loadingToast } from "@/utils/message-utils";
 import { LoadingMessage } from "@/utils/loading-messages";
 import { updateCodesapceSuccess } from "@/utils/success";
 
-interface Syntax {
+export interface Syntax {
   id: number;
   title: string;
   description: string;
   status: number;
+  content_type: string;
+  extension: string;
 }
-interface Codespace {
+
+export interface Codespace {
   id: string;
   title: string;
   description: string;
@@ -20,6 +23,9 @@ interface Codespace {
   user: null;
   content: string;
   is_private: boolean;
+  version: number;
+  download: string;
+  filename: string;
 }
 interface CodespaceContextType {
   codespace: Codespace | {};
