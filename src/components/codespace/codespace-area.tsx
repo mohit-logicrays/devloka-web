@@ -275,13 +275,19 @@ export default function CodespaceArea(): React.JSX.Element {
           </form>
         )}
         <CodeMirror
-          value={content ? content : codespace?.content || ""}
+          value={
+            content
+              ? content
+              : codespace && "content" in codespace
+              ? (codespace as { content: string }).content
+              : ""
+          }
           height="100%"
           extensions={[python(), javascript()]}
           className="h-screen overflow-y-auto resize-none scroll-smooth"
           theme="dark"
           placeholder="Write or paste code here then share. Anyone you share with will see code as it is typed!"
-          onChange={(newContent) => sendUpdate(newContent)}
+          onChange={(newContent: string) => sendUpdate(newContent)}
         />
       </div>
     </div>
