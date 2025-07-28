@@ -6,14 +6,15 @@ export const HTTP = "http://";
 export const HTTPS = "https://";
 export const HOST = "127.0.0.1:";
 export const PORT = "8000/";
-// export const ApiUrl = HTTP + HOST + PORT;
+export const ApiUrl = HTTP + HOST + PORT;
 export const DOMAIN = "devloka.pythonanywhere.com/";
-export const ApiUrl = HTTPS + DOMAIN;
+// export const ApiUrl = HTTPS + DOMAIN;
 export const UrlPaths = {
   LOGIN: "api/v1/login/",
   REFRESH: "api/v1/token/refresh/",
   REGISTER: "api/v1/users/",
   AUTH_USER: "api/v1/users/me/",
+  UPDATE_USER: "api/v1/users/",
   CODESPACE: "api/v1/codespaces/",
   SYNTAXES: "api/v1/syntax/",
 };
@@ -33,4 +34,5 @@ export const RoutesPaths = {
   DASHBOARD: "/dashboard",
   LOGIN: "/login",
   REGISTER: "/register",
+  ACCOUNT: "/account",
 };

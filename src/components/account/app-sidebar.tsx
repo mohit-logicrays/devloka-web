@@ -1,11 +1,11 @@
 import * as React from "react";
 import {
   SquareChevronRightIcon,
-  CogIcon,
+  UserCogIcon,
   CirclePlusIcon,
-  DownloadIcon,
+  SquareCodeIcon,
 } from "lucide-react";
-import { NavMain } from "@/components/codespace/nav-main";
+import { NavMain } from "@/components/account/nav-main";
 import { NavUser } from "@/components/custom/nav-user";
 import {
   Sidebar,
@@ -15,48 +15,35 @@ import {
   SidebarRail,
   SidebarMenuButton,
 } from "@/components/ui/sidebar";
-import {
-  SyntaxSelect,
-  TabSize,
-  ThemeSelect,
-} from "@/components/codespace/nav-items";
 
-// This is sample data.
 const data = {
   navMain: [
     {
-      title: "Settings",
-      icon: CogIcon,
-      isActive: true,
-      url: "#",
-      items: [
-        {
-          title: "Syntax",
-          content: <SyntaxSelect />,
-        },
-        {
-          title: "Tab Size",
-          content: <TabSize />,
-        },
-        {
-          title: "Theme",
-          content: <ThemeSelect />,
-        },
-      ],
+      title: "Account Settings",
+      description: "View or change your account settings.",
+      icon: UserCogIcon,
+      url: "#account-settings",
     },
     {
-      title: "Download",
-      url: "#",
-      icon: DownloadIcon,
+      title: "Dev Spaces",
+      description: "View your dev spaces.",
+      url: "#devspaces",
+      icon: SquareCodeIcon,
     },
     {
       title: "Create New Codespace",
-      url: "#",
+      description: "Create a new codespace.",
+      url: "#create-codespace",
       icon: CirclePlusIcon,
     },
   ],
 };
 
+/**
+ * A sidebar component for the account app.
+ *
+ * This component renders a sidebar with navigation items.
+ * */
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="icon" {...props}>

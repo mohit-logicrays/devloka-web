@@ -30,6 +30,11 @@ export function registerSuccess(id: Id, response: any) {
   }
 }
 
+export function updateUserSuccess(id: Id, response: any) {
+  if (response.status === 200) {
+    successToast(id, SuccessMessage.UPDATE_USER, null);
+  }
+}
 
 export function updateCodesapceSuccess(id: Id, response: any) {
   if (response.status == 200) {

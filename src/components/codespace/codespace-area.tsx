@@ -12,18 +12,18 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
+} from "@/components/ui/alert-dialog";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@/components/ui/tooltip"
+} from "@/components/ui/tooltip";
 import { DOMAIN } from "@/utils/constants";
-import CodeMirror from '@uiw/react-codemirror';
-import { javascript } from '@codemirror/lang-javascript';
-import { python } from '@codemirror/lang-python';
+import CodeMirror from "@uiw/react-codemirror";
+import { javascript } from "@codemirror/lang-javascript";
+import { python } from "@codemirror/lang-python";
 
 /**
  * Custom hook to manage WebSocket connection for code sharing.
@@ -102,7 +102,6 @@ export default function CodespaceArea(): React.JSX.Element {
     setEdit(true);
   };
 
-
   return (
     <div className="h-full w-full p-5">
       <div className="bg-secondary rounded-xl p-3 flex flex-col gap-y-5">
@@ -113,37 +112,39 @@ export default function CodespaceArea(): React.JSX.Element {
                 ? codespace.title
                 : "Codespace Area"}
             </h1>
-            <div className="flex gap-x-2">
-              <Button variant={"ghost"} onClick={() => setEdit(false)}>
-                <Tooltip>
-                  <TooltipTrigger>
-                    <Button>
-                      <PencilIcon className="h-4 w-4" />
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>Edit Title</p>
-                  </TooltipContent>
-                </Tooltip>
-              </Button>
+            <div className="flex gap-x-2 items-center">
+              <Tooltip>
+                <TooltipTrigger>
+                  <Button variant={"ghost"} onClick={() => setEdit(false)}>
+                    <PencilIcon />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Edit Title</p>
+                </TooltipContent>
+              </Tooltip>
               <AlertDialog>
                 <Tooltip>
                   <TooltipTrigger>
-                    <Button>
-                      <AlertDialogTrigger>
-                        <InfoIcon className="h-4 w-4" />
-                      </AlertDialogTrigger>
-                    </Button>
+                    <AlertDialogTrigger>
+                      <InfoIcon />
+                    </AlertDialogTrigger>
                   </TooltipTrigger>
                   <TooltipContent>
                     <p>Update codespace details</p>
                   </TooltipContent>
                 </Tooltip>
                 <AlertDialogContent>
-                  <form className="flex flex-col gap-y-5" method="POST" onSubmit={handleSubmit}>
+                  <form
+                    className="flex flex-col gap-y-5"
+                    method="POST"
+                    onSubmit={handleSubmit}
+                  >
                     <AlertDialogHeader>
                       <div className="flex items-center justify-between mb-5 border-b pb-2">
-                        <AlertDialogTitle>Update Codespace Details.</AlertDialogTitle>
+                        <AlertDialogTitle>
+                          Update Codespace Details.
+                        </AlertDialogTitle>
                         <AlertDialogTrigger asChild>
                           <Button variant={"ghost"}>
                             <XIcon className="h-6 w-6" />
@@ -153,15 +154,30 @@ export default function CodespaceArea(): React.JSX.Element {
                       <AlertDialogDescription className="flex flex-col gap-y-5">
                         <Input
                           name="title"
-                          defaultValue={codespace && "title" in codespace ? codespace.title : ""}
+                          defaultValue={
+                            codespace && "title" in codespace
+                              ? codespace.title
+                              : ""
+                          }
                         />
                         <Textarea
                           name="description"
                           placeholder="Description"
-                          defaultValue={codespace && "description" in codespace ? codespace.description : ""}
+                          defaultValue={
+                            codespace && "description" in codespace
+                              ? codespace.description
+                              : ""
+                          }
                         />
                         <div className="flex items-center space-x-2">
-                          <Switch name="is_private" defaultChecked={codespace && "is_private" in codespace ? codespace.is_private : false} />
+                          <Switch
+                            name="is_private"
+                            defaultChecked={
+                              codespace && "is_private" in codespace
+                                ? codespace.is_private
+                                : false
+                            }
+                          />
                           <Label htmlFor="is_private">Private Codespace</Label>
                         </div>
                       </AlertDialogDescription>
@@ -177,10 +193,18 @@ export default function CodespaceArea(): React.JSX.Element {
             </div>
           </div>
         ) : (
-          <form method="POST" onSubmit={handleSubmit} className="flex justify-between items-center">
+          <form
+            method="POST"
+            onSubmit={handleSubmit}
+            className="flex justify-between items-center"
+          >
             <Input
               name="title"
-              defaultValue={codespace && "title" in codespace ? codespace.title : ""} className="w-2xs" />
+              defaultValue={
+                codespace && "title" in codespace ? codespace.title : ""
+              }
+              className="w-2xs"
+            />
             <div className="flex gap-x-2">
               <Tooltip>
                 <TooltipTrigger>
@@ -205,6 +229,6 @@ export default function CodespaceArea(): React.JSX.Element {
           onChange={(newContent) => sendUpdate(newContent)}
         />
       </div>
-    </div >
+    </div>
   );
 }
