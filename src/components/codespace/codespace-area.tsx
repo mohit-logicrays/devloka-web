@@ -287,7 +287,7 @@ export default function CodespaceArea(): React.JSX.Element {
           className="h-screen overflow-y-auto resize-none scroll-smooth"
           theme="dark"
           placeholder="Write or paste code here then share. Anyone you share with will see code as it is typed!"
-          onChange={(newContent: string) => sendUpdate(newContent)}
+          onChange={(newContent: any) => sendUpdate(newContent)}
         />
       </div>
     </div>
