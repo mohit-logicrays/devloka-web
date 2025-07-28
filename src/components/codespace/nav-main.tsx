@@ -2,7 +2,7 @@
 
 import { ChevronRight, type LucideIcon } from "lucide-react";
 import { useSidebar } from "@/components/ui/sidebar";
-
+import { Link } from "react-router-dom";
 import {
   Collapsible,
   CollapsibleContent,
@@ -27,6 +27,7 @@ export function NavMain({
     url: string | undefined;
     icon?: LucideIcon;
     isActive?: boolean;
+    target: string;
     items?:
       | {
           title: string;
@@ -58,18 +59,19 @@ export function NavMain({
                   >
                     {item.icon && <item.icon />}
                     <span>{item.title}</span>
-
                     <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
                   </SidebarMenuButton>
                 </CollapsibleTrigger>
               )) || (
-                <SidebarMenuButton
-                  tooltip={item.title}
-                  onClick={open ? undefined : toggleSidebar}
-                >
-                  {item.icon && <item.icon />}
-                  <span>{item.title}</span>
-                </SidebarMenuButton>
+                <Link to={item?.url || ""} target={item?.target}>
+                  <SidebarMenuButton
+                    tooltip={item.title}
+                    onClick={open ? undefined : toggleSidebar}
+                  >
+                    {item.icon && <item.icon />}
+                    <span>{item.title}</span>
+                  </SidebarMenuButton>
+                </Link>
               )}
               <CollapsibleContent>
                 <SidebarMenuSub className="gap-y-5">

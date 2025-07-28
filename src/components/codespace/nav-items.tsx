@@ -7,10 +7,11 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "@/components/ui/select";
 
 export function SyntaxSelect() {
-  const { syntaxes, codespace, getSyntaxes, partialUpdateCodespace } = useCodespaceContext();
+  const { syntaxes, codespace, getSyntaxes, partialUpdateCodespace } =
+    useCodespaceContext();
   const [syntax, setSyntax] = useState("");
 
   useEffect(() => {
@@ -84,7 +85,7 @@ export function TabSize() {
 export function ThemeSelect() {
   return (
     <div>
-      <Select defaultValue="2">
+      <Select defaultValue="dark">
         <SelectTrigger className="w-full">
           <SelectValue placeholder="Editor Theme" />
         </SelectTrigger>
